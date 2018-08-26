@@ -1,6 +1,6 @@
 certifi==2018.8.24
 chardet==3.0.4
 idna==2.7
-progressbar==2.5
+progressbar2==3.36.0
 requests==2.19.1
 urllib3==1.23

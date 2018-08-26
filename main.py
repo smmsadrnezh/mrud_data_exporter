@@ -3,7 +3,7 @@ import re
 import sys
 
 import requests
-from progressbar import progressbar
+import progressbar
 
 import settings
 
