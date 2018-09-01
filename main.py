@@ -49,14 +49,10 @@ def extract_and_write_data():
                                                                     transaction_type=current_transaction_type['name']))
     bar = progressbar.ProgressBar()
     for page_number in bar(range(0, current_city['max_page_number'])):
-
-        request_data = settings.SetCityRequest(current_city['code'])
-        requests.post(**request_data.__dict__)
-
         request_data = settings.GetTransactionsRequest(current_city['code'], page_number, current_transaction_type)
         transactions_data = extract_transactions(requests.post(**request_data.__dict__).text)
         if not transactions_data:
-            eprint("Error: no transaction data")
+            eprint("\nError: no transaction data")
         write_csv(transactions_data)
         write_to_database(transactions_data)
 
@@ -72,6 +68,10 @@ def main():
             for city in settings.cities:
                 if city['do_extract']:
                     current_city = city
+                    request_data = settings.SetCityRequest(current_city['code'])
+                    requests.post(**request_data.__dict__)
+                    request_data = settings.SetTransactionsTypeRequest(current_city['code'], current_transaction_type)
+                    requests.post(**request_data.__dict__)
                     extract_and_write_data()
 
 
