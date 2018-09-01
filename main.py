@@ -14,15 +14,6 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-def get_request_data(city_code, page_number):
-    current_request = settings.request_template
-    current_request['params']['strTownship'] = current_request['params']['strTownship'].format(city_code=city_code)
-    current_request['headers']['Referer'] = current_request['headers']['Referer'].format(city_code=city_code)
-    current_request['data'] = current_request['data'].format(page_number=page_number,
-                                                             **current_transaction_type['data'])
-    return current_request
-
-
 def remove_substrings(string, substrings):
     for substring in substrings:
         string = re.sub(substring, '', string)
@@ -49,14 +40,25 @@ def write_csv(data_rows):
             writer_csv_file_valid.writerow(data_row)
 
 
+def write_to_database(transactions_data):
+    pass
+
+
 def extract_and_write_data():
     eprint("Exporting data for: {city} - {transaction_type}".format(city=current_city['name'],
                                                                     transaction_type=current_transaction_type['name']))
     bar = progressbar.ProgressBar()
-    for page_number in bar(range(1, current_city['max_page_number'])):
-        request_data = get_request_data(current_city['code'], page_number)
-        transactions_data = extract_transactions(requests.post(**request_data).text)
+    for page_number in bar(range(0, current_city['max_page_number'])):
+
+        request_data = settings.SetCityRequest(current_city['code'])
+        requests.post(**request_data.__dict__)
+
+        request_data = settings.GetTransactionsRequest(current_city['code'], page_number, current_transaction_type)
+        transactions_data = extract_transactions(requests.post(**request_data.__dict__).text)
+        if not transactions_data:
+            eprint("Error: no transaction data")
         write_csv(transactions_data)
+        write_to_database(transactions_data)
 
 
 def main():
