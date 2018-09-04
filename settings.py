@@ -9,7 +9,7 @@ class Request:
             'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Content-Length': '44857',
-            'Cookie': 'ASP.NET_SessionId=es5e5ktnnpkrzszxcjd45xt4',
+            'Cookie': 'ASP.NET_SessionId=' + 'qcdhdmys1cjer1llw0dgznij',
             'Connection': 'keep-alive',
         }
 
@@ -62,20 +62,13 @@ class GetTransactionsRequest(SetTypeOrGetTransactionsRequest):
 
 
 cities = [
-    # {'name': 'Yazd', 'code': '0501', 'label': 'یزد', 'max_page_number': 197, 'do_extract': True},
-    {'name': 'Yazd', 'code': '0501', 'label': 'یزد', 'max_page_number': 3, 'do_extract': True},
-    # {'name': 'Isfahan', 'code': '0701', 'label': 'اصفهان', 'max_page_number': 254, 'do_extract': False},
-    {'name': 'Isfahan', 'code': '0701', 'label': 'اصفهان', 'max_page_number': 3, 'do_extract': True},
-    # {'name': 'Zanjan', 'code': '0301', 'label': 'زنجان', 'max_page_number': 372, 'do_extract': False},
-    {'name': 'Zanjan', 'code': '0301', 'label': 'زنجان', 'max_page_number': 3, 'do_extract': True},
-    # {'name': 'Shiraz', 'code': '0601', 'label': 'شیراز', 'max_page_number': 2116, 'do_extract': False},
-    {'name': 'Shiraz', 'code': '0601', 'label': 'شیراز', 'max_page_number': 3, 'do_extract': True},
-    # {'name': 'Rasht', 'code': '0401', 'label': 'رشت', 'max_page_number': 9998, 'do_extract': False},
-    {'name': 'Rasht', 'code': '0401', 'label': 'رشت', 'max_page_number': 3, 'do_extract': True},
-    # {'name': 'Mashhad', 'code': '0201', 'label': 'مشهد', 'max_page_number': 10799, 'do_extract': False},
-    {'name': 'Mashhad', 'code': '0201', 'label': 'مشهد', 'max_page_number': 3, 'do_extract': True},
-    # {'name': 'Tehran', 'code': '0101', 'label': 'تهران', 'max_page_number': 27499, 'do_extract': False},
-    {'name': 'Tehran', 'code': '0101', 'label': 'تهران', 'max_page_number': 3, 'do_extract': True},
+    {'name': 'Yazd', 'code': '0501', 'label': 'یزد', 'do_extract': True},
+    {'name': 'Isfahan', 'code': '0701', 'label': 'اصفهان', 'do_extract': True},
+    {'name': 'Zanjan', 'code': '0301', 'label': 'زنجان', 'do_extract': True},
+    {'name': 'Shiraz', 'code': '0601', 'label': 'شیراز', 'do_extract': True},
+    {'name': 'Rasht', 'code': '0401', 'label': 'رشت', 'do_extract': True},
+    {'name': 'Mashhad', 'code': '0201', 'label': 'مشهد', 'do_extract': True},
+    {'name': 'Tehran', 'code': '0101', 'label': 'تهران', 'do_extract': True},
 ]
 
 transaction_types = [

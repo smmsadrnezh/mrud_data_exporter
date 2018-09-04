@@ -47,10 +47,22 @@ def write_to_database(transactions_data):
 def extract_and_write_data():
     eprint("Exporting data for: {city} - {transaction_type}".format(city=current_city['name'],
                                                                     transaction_type=current_transaction_type['name']))
+
+    # TODO: This section needs refactoring
+    request_data = settings.GetTransactionsRequest(current_city['code'], 0, current_transaction_type)
+    response = requests.post(**request_data.__dict__).text
+    page_number_pattern = re.compile('pageCount\\\\\':(\d*)')
+    max_page_number = int(page_number_pattern.findall(response)[0])
+    transactions_data = extract_transactions(response)
+    if not transactions_data:
+        eprint("\nError: no transaction data")
+    write_csv(transactions_data)
+    write_to_database(transactions_data)
     bar = progressbar.ProgressBar()
-    for page_number in bar(range(0, current_city['max_page_number'])):
+    for page_number in bar(range(1, max_page_number)):
         request_data = settings.GetTransactionsRequest(current_city['code'], page_number, current_transaction_type)
-        transactions_data = extract_transactions(requests.post(**request_data.__dict__).text)
+        response = requests.post(**request_data.__dict__).text
+        transactions_data = extract_transactions(response)
         if not transactions_data:
             eprint("\nError: no transaction data")
         write_csv(transactions_data)
@@ -60,8 +72,8 @@ def extract_and_write_data():
 def main():
     global current_city, current_transaction_type
     write_csv(
-        [["نوع قرارداد", "شهر", "منطقه", "محله", "تاریخ عقد قرارداد", "مساحت", "سن (سال)", "قیمت کل تومان",
-          "قیمت هر متر تومان"]])
+        [["نوع قرارداد", "شهر", "منطقه", "محله", "تاریخ عقد قرارداد", "مساحت", "سن (سال)", "قیمت کل (تومان)",
+          "قیمت هر متر (تومان)", "قیمت رهن (تومان)"]])
     for transaction_type in settings.transaction_types:
         if transaction_type['do_extract']:
             current_transaction_type = transaction_type
