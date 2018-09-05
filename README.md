@@ -1,3 +1,5 @@
+This application extract all transactions data from hmi.mrud.ir into a csv file. It is implemented in Python.
+
 How to install
 =========
 
@@ -19,7 +21,10 @@ python3 main.py
 TODO
 =========
 
-  * Implement monthly data extraction update
-  * Implement logger
-  * Fix fields format
-  * Implement connection to database
+  * Implement update monthly transactions for this month
+  * Implementing a mechanism to generate logs on each run
+  * Fix data formats to be readable by MySQL
+  * Implement a mechanism for renewing session in robots settings
+  * Add mortgage field to the result table
+  * Implement connection to MySQL and write the results in the specific Codeigniter's table
+  * Write queries and design charts from extracted data with semantic value
