@@ -10,10 +10,6 @@ import settings
 current_city, current_transaction_type = dict(), dict()
 
 
-def eprint(*args, **kwargs):
-    print(*args, file=sys.stderr, **kwargs)
-
-
 def remove_substrings(string, substrings):
     for substring in substrings:
         string = re.sub(substring, '', string)
@@ -45,8 +41,9 @@ def write_to_database(transactions_data):
 
 
 def extract_and_write_data():
-    eprint("Exporting data for: {city} - {transaction_type}".format(city=current_city['name'],
-                                                                    transaction_type=current_transaction_type['name']))
+    print("Exporting data for: {city} - {transaction_type}".format(city=current_city['name'],
+                                                                   transaction_type=current_transaction_type['name']),
+          file=sys.stderr)
 
     # TODO: This section needs refactoring
     request_data = settings.GetTransactionsRequest(current_city['code'], 0, current_transaction_type)
@@ -55,7 +52,7 @@ def extract_and_write_data():
     max_page_number = int(page_number_pattern.findall(response)[0])
     transactions_data = extract_transactions(response)
     if not transactions_data:
-        eprint("\nError: no transaction data")
+        print("\nError: no transaction data", file=sys.stderr)
     write_csv(transactions_data)
     write_to_database(transactions_data)
     bar = progressbar.ProgressBar()
@@ -64,7 +61,7 @@ def extract_and_write_data():
         response = requests.post(**request_data.__dict__).text
         transactions_data = extract_transactions(response)
         if not transactions_data:
-            eprint("\nError: no transaction data")
+            print("\nError: no transaction data", file=sys.stderr)
         write_csv(transactions_data)
         write_to_database(transactions_data)
 
